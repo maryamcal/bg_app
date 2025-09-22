@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kids' Soundboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            color: #1e293b;
+        }
+        .container {
+            max-width: 800px;
+        }
+        .button-icon {
+            font-size: 3rem;
+        }
+        .btn-press-animation:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body class="p-6">
+    <div class="container mx-auto text-center py-8">
+        <h1 class="text-4xl font-bold mb-8 text-indigo-700">Kids' Soundboard</h1>
+        <p class="text-lg text-gray-600 mb-10">
+            Tap a button to play a sound! Remember to replace the placeholder audio URLs in the code
+            with your own sound files.
+        </p>
+
+        <div id="message-box" class="fixed top-4 left-1/2 -translate-x-1/2 bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg z-50 hidden">
+            <!-- Error messages will appear here -->
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-6">
+
+            <!-- Button 1: Quiet Voices -->
+            <button onclick="playAudio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 'quiet-voices')" 
+                    class="btn-press-animation bg-blue-500 hover:bg-blue-600 text-white font-bold py-8 px-4 rounded-3xl shadow-lg transition-all transform hover:-translate-y-1">
+                <span class="button-icon">🤫</span>
+                <p class="mt-2 text-xl">Quiet Voices</p>
+            </button>
+
+            <!-- Button 2: Story Time -->
+            <button onclick="playAudio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3', 'story-time')" 
+                    class="btn-press-animation bg-purple-500 hover:bg-purple-600 text-white font-bold py-8 px-4 rounded-3xl shadow-lg transition-all transform hover:-translate-y-1">
+                <span class="button-icon">📖</span>
+                <p class="mt-2 text-xl">Story Time</p>
+            </button>
+
+            <!-- Button 3: Let's Clean Up -->
+            <button onclick="playAudio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3', 'clean-up')" 
+                    class="btn-press-animation bg-green-500 hover:bg-green-600 text-white font-bold py-8 px-4 rounded-3xl shadow-lg transition-all transform hover:-translate-y-1">
+                <span class="button-icon">🧹</span>
+                <p class="mt-2 text-xl">Let's Clean Up!</p>
+            </button>
+            
+            <!-- Button 4: Fun Fact -->
+            <button onclick="playAudio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3', 'fun-fact')" 
+                    class="btn-press-animation bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-8 px-4 rounded-3xl shadow-lg transition-all transform hover:-translate-y-1">
+                <span class="button-icon">🧠</span>
+                <p class="mt-2 text-xl">Fun Fact!</p>
+            </button>
+
+            <!-- Button 5: Time to Rest -->
+            <button onclick="playAudio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3', 'rest-time')" 
+                    class="btn-press-animation bg-red-500 hover:bg-red-600 text-white font-bold py-8 px-4 rounded-3xl shadow-lg transition-all transform hover:-translate-y-1">
+                <span class="button-icon">😴</span>
+                <p class="mt-2 text-xl">Time to Rest</p>
+            </button>
+
+            <!-- Button 6: Good Job! -->
+            <button onclick="playAudio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3', 'good-job')" 
+                    class="btn-press-animation bg-teal-500 hover:bg-teal-600 text-white font-bold py-8 px-4 rounded-3xl shadow-lg transition-all transform hover:-translate-y-1">
+                <span class="button-icon">✨</span>
+                <p class="mt-2 text-xl">Good Job!</p>
+            </button>
+
+        </div>
+    </div>
+
+    <script>
+        // Use a single audio object to prevent multiple sounds from playing at once.
+        let currentAudio = null;
+
+        /**
+         * Plays an audio file from a given URL.
+         * Displays a message if there is an error loading the audio.
+         * @param {string} audioUrl The URL of the audio file.
+         */
+        function playAudio(audioUrl) {
+            const messageBox = document.getElementById('message-box');
+            
+            // Stop any currently playing audio
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+
+            try {
+                currentAudio = new Audio(audioUrl);
+                currentAudio.play().catch(error => {
+                    console.error("Audio playback error:", error);
+                    showMessage("Playback failed. Please check the audio URL.");
+                });
+            } catch (error) {
+                console.error("Audio object creation error:", error);
+                showMessage("Could not create audio player. Please try again.");
+            }
+        }
+
+        /**
+         * Displays a temporary message in the message box.
+         * @param {string} message The message to display.
+         */
+        function showMessage(message) {
+            const messageBox = document.getElementById('message-box');
+            messageBox.textContent = message;
+            messageBox.classList.remove('hidden');
+            setTimeout(() => {
+                messageBox.classList.add('hidden');
+            }, 3000); // Hide the message after 3 seconds
+        }
+    </script>
+</body>
+</html>
